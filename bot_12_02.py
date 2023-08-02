@@ -111,45 +111,30 @@ def phone(list_input):
                 rec: Record = phone_book.get(str(i))
                 return print(f"Ваш контакт:\n{phone_book[i]} {rec.days_to_birthday()}")
     return print(f"Ваш контакт {list_input[1].capitalize()} не знайдено.")
-             
+
 def show_all(list_input):
-    if len(list_input) == 2:
+    try:        #перевірка на число строк
+        int(list_input[2])
+    except ValueError:
+        list_input[2]=-1
+    if int(list_input[2])>0:
         print("Ваш список контактів:")
-        print(phone_book)
-    elif len(list_input) > 2:
-        try:
-            int(list_input[2])
-        except ValueError:
-            list_input[2]=0
-        nstr = int(list_input[2])
-        if nstr>0:
-            long = len(phone_book)
-            if long <= nstr:
-                print("Ваш список контактів:")
-                print(phone_book)
-            else:
-                print_page(nstr)
-        else:
-            print("Ваш список контактів:")
-            print(phone_book)
-
-
-def  print_page(n):
-    f=0
-    fn=0
-    for i in phone_book.keys():
-        f =f+1
-        fn=fn+1 
-        print(fn," ",phone_book.get(str(i)))
-        if f == n:
-            f = 0
-            #click.pause('Чтобы продолжить, нажмите Enter.')
-            nn = True
-            while nn:
-                nn = (input(f"Щоб подивитися наступні {n} контакти натисніть Enter."))
-                nn = False
+        n = len(phone_book)
+        if n == 0:
+            print("Ваш список контактів пустий.")
+        i = int(list_input[2])
+        for rec in phone_book.iterator(i):
+            print(rec)
+            n=n-i
+            if n>0:
+                nn = True
+                while nn:
+                    nn = (input(f"Щоб подивитися наступні контакти натисніть Enter."))
+                    nn = False
+    else:
+        print("Ваш список контактів:")
+        print(phone_book)                
     print("Всі контакти показано.\n")
-
 
 def show_birthday(list_input):
     f = True
@@ -225,4 +210,4 @@ bot_start()
 save_bot_book(phone_book)
 
 
-#       python C:\Repository\Repository_12\bot_12_02.py
+#       python C:\Repository\Repository_11\bot_12_02.py
